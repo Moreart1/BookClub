@@ -3,7 +3,7 @@ using BookClub.DAL.Interface;
 
 namespace BookClub.DAL.Repository
 {
-    public class BookRepository:BaseRepository<Book>,IBookRepository
+    public class BookRepository : BaseRepository<Book>, IBookRepository
     {
         public BookRepository(DataBaseContext databaseContext) : base(databaseContext) { }
 

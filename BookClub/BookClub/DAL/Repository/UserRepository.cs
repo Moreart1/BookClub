@@ -22,7 +22,7 @@ namespace BookClub.DAL.Repository
 
         public async Task<User> GetByIdAsync(int id)
         {
-            return await dataBase.Users.Include(x => x.Books).Where(x =>x.Id == id).FirstOrDefaultAsync();
+            return await dataBase.Users.Include(x => x.Books).Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task AddBookToUserAsync(User user, Book book)

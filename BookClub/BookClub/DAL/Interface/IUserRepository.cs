@@ -6,8 +6,8 @@ namespace BookClub.DAL.Interface
     {
         Task CreateAsync(User user);
         Task UpdateAsync(User user);
-        Task AddBookToUserAsync(User user,Book book);
+        Task AddBookToUserAsync(User user, Book book);
         Task<User> GetByLoginAsync(string login);
-        Task<User> GetByIdAsync(int  id);
+        Task<User> GetByIdAsync(int id);
     }
 }

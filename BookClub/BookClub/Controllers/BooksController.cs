@@ -7,7 +7,7 @@ namespace BookClub.Controllers
     [Route("[controller]")]
     public class BooksController : ControllerBase
     {
-        
-       
-    }    
+
+
+    }
 }
