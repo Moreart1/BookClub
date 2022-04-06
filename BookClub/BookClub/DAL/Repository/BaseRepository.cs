@@ -24,7 +24,7 @@ namespace BookClub.DAL.Repository
 
         public async Task AddAsync(T item)
         {
-             await dataBase.Set<T>().AddAsync(item);
+            await dataBase.Set<T>().AddAsync(item);
         }
 
         public void Update(T item)

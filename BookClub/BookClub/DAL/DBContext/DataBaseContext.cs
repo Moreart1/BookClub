@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookClub.DAL.DBContext
 {
-    public class DataBaseContext :DbContext
+    public class DataBaseContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Book> Books { get; set; } 
+        public DbSet<Book> Books { get; set; }
 
-        public DataBaseContext(DbContextOptions<DataBaseContext>options):base(options)
+        public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
@@ -33,7 +33,7 @@ namespace BookClub.DAL.DBContext
                 new Book() { Id = 7, Name = "Война и мир.Том 7"},
                 new Book() { Id = 8, Name = "Война и мир.Том 8"}
             };
-            
+
             modelBuilder.Entity<User>().HasData(users);
             modelBuilder.Entity<Book>().HasData(books);
         }
