@@ -1,23 +1,17 @@
-﻿using BookClub.DAL.DBContext;
-using BookClub.DAL.Interface;
-using BookClub.DAL.Repository;
+﻿using BookClub.DAL.Interface;
 using BookClub.DTO.Interface;
 
 namespace BookClub.DTO.Repository
 {
-    public class DataAccessRepository :IDataAccessRepository
+    public class DataAccessRepository : IDataAccessRepository
     {
-        private readonly DataBaseContext dataBaseContext;
-
-        public DataAccessRepository(DataBaseContext _dataBaseContext)
+        public DataAccessRepository(IUserRepository userRepository, IBookRepository bookRepository)
         {
-            dataBaseContext = _dataBaseContext;
+            UserRepository = userRepository;
+            BookRepository = bookRepository;
         }
 
-        IUserRepository userRepository;
-        IBookRepository bookRepository;
-
-        public IUserRepository UserRepository => userRepository ?? new UserRepository(dataBaseContext);
-        public IBookRepository BookRepository => bookRepository ?? new BookRepository(dataBaseContext);
+        public IUserRepository UserRepository { get; }
+        public IBookRepository BookRepository { get; }
     }
 }

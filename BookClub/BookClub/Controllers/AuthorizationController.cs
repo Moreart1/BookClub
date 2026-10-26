@@ -1,6 +1,6 @@
-﻿using BookClub.DTO.Interface;
+﻿using BookClub.DTO;
+using BookClub.DTO.Extensions;
 using BookClub.DTO.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,16 +9,24 @@ namespace BookClub.Controllers
     [Route("api/BookClub")]
     [ApiController]
     public class AuthorizationController : ControllerBase
-    {       
-        [HttpGet("Login")]
-        public async Task<ActionResult<ServiceResponse<UserViewModel>>> Login([FromQuery] string login)
-        {           
-            return Ok();
+    {
+        private readonly IAuthorizationService _authorizationService;
+
+        public AuthorizationController(IAuthorizationService authorizationService)
+        {
+            _authorizationService = authorizationService;
         }
+
+        [HttpGet("Login")]
+        public async Task<ActionResult<ServiceResponse<UserViewModel>>> Login([FromQuery, Required] string login)
+        {
+            return (await _authorizationService.Login(login)).ToActionResult();
+        }
+
         [HttpPost("Registration")]
         public async Task<ActionResult<ServiceResponse<UserViewModel>>> Registration([FromBody] UserViewModel userViewModel)
-        {           
-            return Ok();
+        {
+            return (await _authorizationService.Register(userViewModel)).ToActionResult();
         }
     }
 }

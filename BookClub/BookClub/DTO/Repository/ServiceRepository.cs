@@ -1,24 +1,16 @@
-﻿using AutoMapper;
-using BookClub.DTO.Interface;
-using BookClub.DTO.Service;
+﻿using BookClub.DTO.Interface;
 
 namespace BookClub.DTO.Repository
 {
     public class ServiceRepository : IServiceRepository
     {
-        IDataAccessRepository repository;
-        IMapper mapper;
-
-        public ServiceRepository(IDataAccessRepository _repository,IMapper _mapper)
+        public ServiceRepository(IClubService clubService, IAuthorizationService authorizationService)
         {
-            repository = _repository;
-            mapper = _mapper;
+            ClubService = clubService;
+            AuthorizationService = authorizationService;
         }
 
-        IClubService service;
-        IAuthorizationService authorizationService;
-
-        public IClubService ClubService => service ??= new ClubService(repository);
-        public IAuthorizationService AuthorizationService => authorizationService ??= new AuthorizationService(repository,mapper);
+        public IClubService ClubService { get; }
+        public IAuthorizationService AuthorizationService { get; }
     }
 }

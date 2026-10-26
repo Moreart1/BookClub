@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using BookClub.DTO.Extensions;
-using BookClub.DTO.Interface;
-using BookClub.DTO.Repository;
 using BookClub.Extensions;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace BookClub
 {
     public class Startup
-    {      
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -18,10 +17,9 @@ namespace BookClub
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers().AddJsonOptions(options =>
             {
-                options.JsonSerializerOptions.IgnoreNullValues = true;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
 
             var mapperConfig = new MapperConfiguration(config =>
@@ -30,18 +28,14 @@ namespace BookClub
             });
             services.AddSingleton(mapperConfig.CreateMapper());
 
-            services.AddTransient<IDataAccessRepository, DataAccessRepository>();
-            services.AddTransient<IServiceRepository, ServiceRepository>();
-
-            services.AddLogicInjection<Startup>();
+            services.AddApplicationServices(Configuration);
 
             services.AddSwaggerGen(c =>
             {
-
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "BookClub",
-                    Description = " Книжный клуб, в котором пользователи могут составлять список прочитанных книг.",
+                    Description = "Книжный клуб, в котором пользователи могут составлять список прочитанных книг.",
                     Contact = new OpenApiContact
                     {
                         Name = "Денисенко Марк",
@@ -50,8 +44,6 @@ namespace BookClub
                     Version = "v1"
                 });
             });
-           
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -63,12 +55,13 @@ namespace BookClub
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BookClub v1"));
             }
 
-            app.UseHttpsRedirection();
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
